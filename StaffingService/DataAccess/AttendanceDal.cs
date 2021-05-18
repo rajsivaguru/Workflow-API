@@ -44,6 +44,13 @@ namespace StaffingService.DataAccess
             ResponseModel response = new ResponseModel();
             List<PunchInOut> result = new List<PunchInOut>();
 
+            if(loginId == 0)
+            {
+                response = Common.GetResponse(result.Count());
+                response.Output = result;
+                return response;
+            }
+
             using (IDbConnection conn = _dbConnection.Connection)
             {
                 DynamicParameters param = new DynamicParameters();

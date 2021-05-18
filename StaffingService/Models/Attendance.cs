@@ -14,7 +14,7 @@ namespace StaffingService.Models
         public DateTimeOffset? intime { get; set; }
         public DateTimeOffset? outtime { get; set; }
         public string notes { get; set; }
-        public bool istoday { get; set; }
-        public DateTime modifiedon { get; set; }
+        public bool isapproved { get; set; }
+        public DateTime? modifiedon { get; set; }
     }
 }
