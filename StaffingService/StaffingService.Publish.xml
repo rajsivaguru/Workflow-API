@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="E:\PS Energy\Mathan\Projects\Consultancy\Publish\Release\WorkflowApi" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="Global.asax" publishTime="02/23/2018 15:31:06" />
+    <file relUrl="bin/EntityFramework.xml" publishTime="12/04/2017 18:31:40" />
+    <file relUrl="Views/_ViewStart.cshtml" publishTime="12/04/2017 18:50:01" />
+    <file relUrl="bin/System.Net.Http.WebRequest.xml" publishTime="12/04/2017 18:31:52" />
+    <file relUrl="bin/System.Web.Providers.dll" publishTime="12/04/2017 18:31:54" />
+    <file relUrl="bin/System.Net.Http.dll" publishTime="12/04/2017 18:31:52" />
+    <file relUrl="Views/Shared/Error.cshtml" publishTime="12/04/2017 18:50:41" />
+    <file relUrl="bin/System.Web.WebPages.Razor.dll" publishTime="12/04/2017 18:31:50" />
+    <file relUrl="bin/Newtonsoft.Json.xml" publishTime="12/04/2017 18:31:50" />
+    <file relUrl="bin/WebGrease.dll" publishTime="12/04/2017 18:31:56" />
+    <file relUrl="bin/System.Web.WebPages.Deployment.xml" publishTime="12/04/2017 18:31:50" />
+    <file relUrl="bin/System.Web.Helpers.dll" publishTime="12/04/2017 18:31:50" />
+    <file relUrl="bin/System.Web.WebPages.dll" publishTime="12/04/2017 18:31:50" />
+    <file relUrl="packages.config" publishTime="12/04/2017 18:31:57" />
+    <file relUrl="bin/System.Web.Mvc.xml" publishTime="12/04/2017 18:31:51" />
+    <file relUrl="Views/Home/Index.cshtml" publishTime="02/26/2018 14:01:27" />
+    <file relUrl="bin/System.Web.Razor.xml" publishTime="12/04/2017 18:31:50" />
+    <file relUrl="bin/System.Web.WebPages.xml" publishTime="12/04/2017 18:31:50" />
+    <file relUrl="bin/Antlr3.Runtime.dll" publishTime="12/04/2017 18:31:55" />
+    <file relUrl="bin/Newtonsoft.Json.dll" publishTime="12/04/2017 18:31:50" />
+    <file relUrl="bin/System.Web.WebPages.Razor.xml" publishTime="12/04/2017 18:31:50" />
+    <file relUrl="bin/StaffingService.pdb" publishTime="03/24/2018 12:46:30" />
+    <file relUrl="bin/System.Web.Mvc.dll" publishTime="12/04/2017 18:31:51" />
+    <file relUrl="bin/System.Net.Http.WebRequest.dll" publishTime="12/04/2017 18:31:52" />
+    <file relUrl="bin/StaffingService.dll" publishTime="03/24/2018 12:46:30" />
+    <file relUrl="bin/System.Web.Razor.dll" publishTime="12/04/2017 18:31:50" />
+    <file relUrl="bin/System.Web.WebPages.Deployment.dll" publishTime="12/04/2017 18:31:50" />
+    <file relUrl="bin/System.Net.Http.xml" publishTime="12/04/2017 18:31:52" />
+    <file relUrl="bin/Microsoft.Web.Infrastructure.dll" publishTime="12/04/2017 18:31:49" />
+    <file relUrl="Web.config" publishTime="03/24/2018 13:28:54" />
+    <file relUrl="bin/EntityFramework.dll" publishTime="12/04/2017 18:31:40" />
+    <file relUrl="bin/System.Web.Optimization.dll" publishTime="12/04/2017 18:31:55" />
+    <file relUrl="Views/Web.config" publishTime="12/04/2017 18:31:36" />
+    <file relUrl="bin/System.Web.Helpers.xml" publishTime="12/04/2017 18:31:50" />
+  </publishProfile>
+</publishData>

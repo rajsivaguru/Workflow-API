@@ -1,0 +1,38 @@
+﻿<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Service</title>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <meta name="google-signin-client_id" content="401457242494-206pj34uqhde10j257c9pvtfqflt6j0i.apps.googleusercontent.com">
+        <script type="text/javascript">
+        
+        function onSignIn(googleUser) {
+          var profile = googleUser.getBasicProfile();
+          console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+          console.log('Name: ' + profile.getName());
+          console.log('Image URL: ' + profile.getImageUrl());
+          console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        }
+
+
+        function signOut() {
+        
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+        });
+      }
+
+        </script>
+</head>
+<body>
+    <h2>
+        Testing Service -- UP
+    </h2>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <a href="#" onclick="signOut();">Sign out</a>
+    <div class="g-signin2" data-onsuccess="onSignIn">asd</div>
+
+    
+</body>
+</html>
