@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using StaffingService.Models;
 using StaffingService.Util;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -70,28 +71,36 @@ namespace StaffingService.DataAccess
         {
             ResponseModel response = new ResponseModel();
 
-            using (IDbConnection conn = _dbConnection.Connection)
+            try
             {
-                DynamicParameters param = new DynamicParameters();
+                using (IDbConnection conn = _dbConnection.Connection)
+                {
+                    DynamicParameters param = new DynamicParameters();
 
-                ////if (source.customervendorid > 0)
-                ////    param.Add("@Id", source.customervendorid, DbType.Int32);
+                    param.Add("@LoginId", loginUserId, DbType.Int32);
+                    param.Add("@PunchId", source.punchid, DbType.Int32);
+                    param.Add("@PunchDay", source.punchday.ToString("yyyy-MM-dd"), DbType.Date);
+                    param.Add("@InTime", source.intime, DbType.DateTimeOffset);
+                    param.Add("@OutTime", source.outtime, DbType.DateTimeOffset);
+                    param.Add("@Notes", source.notes.Trim(), DbType.String);
 
-                ////param.Add("@Name", source.name.Trim(), DbType.String);
-                ////param.Add("@Type", source.type.Trim(), DbType.String);
-                param.Add("@LoginUserId", loginUserId, DbType.Int32);
+                    var data = await conn.QueryAsync<int>(Constants.StoredProcedure.SAVEMYPUNCHDETAILS, param, null, null, CommandType.StoredProcedure);
+                    int result = 0;
 
-                var data = await conn.QueryAsync<int>(Constants.StoredProcedure.SAVEMYPUNCHDETAILS, param, null, null, CommandType.StoredProcedure);
-                int result = 0;
+                    if (data.ToList().Count > 0)
+                        result = data.ToList()[0];
 
-                if (data.ToList().Count > 0)
-                    result = data.ToList()[0];
-
-                response.ResultStatus = result;
-                response.RequestType = Constants.RequestType.POST;
-                response.SuccessMessage = result == 0 ? string.Empty : "Punch In/Out saved successfully.";
-                response.ErrorMessage = result == 0 ? "Error occurred while saving.  Please try again." : string.Empty;
+                    response.ResultStatus = result;
+                    response.RequestType = Constants.RequestType.POST;
+                    response.SuccessMessage = result == 0 ? string.Empty : "Punch In/Out saved successfully.";
+                    response.ErrorMessage = result == 0 ? "Error occurred while saving.  Please try again." : string.Empty;
+                }
             }
+            catch(Exception ex)
+            {
+
+            }
+            
 
             return response;
         }

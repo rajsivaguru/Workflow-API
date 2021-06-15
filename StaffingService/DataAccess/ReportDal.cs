@@ -259,34 +259,33 @@ namespace StaffingService.DataAccess
             return response;
         }
 
-        internal async Task<ResponseModel> GetPunchReport(ProfileSearchReportParam parameters)
+        internal async Task<ResponseModel> GetPunchReport(PunchReportParam parameters)
         {
             ResponseModel response = new ResponseModel();
-            List<ProfileSearchReport> result = new List<ProfileSearchReport>();
+            List<PunchReport> result = new List<PunchReport>();
 
             using (IDbConnection conn = _dbConnection.Connection)
             {
                 DynamicParameters param = new DynamicParameters();
 
-                string userIds = string.Empty;
-                if (parameters.userids != null && parameters.userids.Count > 0)
-                    userIds = string.Join(",", parameters.userids);
+                //string userRoleIds = string.Empty;
+                //if (parameters.userRoleIds != null && parameters.userRoleIds.Count > 0)
+                //    userRoleIds = string.Join(",", parameters.userRoleIds);
 
-                if (!string.IsNullOrWhiteSpace(userIds))
-                    param.Add("@UserIds", userIds, DbType.String);
-                if (!string.IsNullOrWhiteSpace(parameters.jobcode))
-                    param.Add("@JobCode", parameters.jobcode, DbType.String);
-                if (!string.IsNullOrWhiteSpace(parameters.title))
-                    param.Add("@Title", parameters.title, DbType.String);
-                if (!string.IsNullOrWhiteSpace(parameters.location))
-                    param.Add("@Location", parameters.location, DbType.String);
-                if (!string.IsNullOrWhiteSpace(parameters.searcheddate))
-                    param.Add("@SearchedDate", parameters.searcheddate, DbType.String);
+                //if (!string.IsNullOrWhiteSpace(userRoleIds))
+                //    param.Add("@UserRoleIds", userRoleIds, DbType.String);
+
+                param.Add("@ShowOnlyMissingTime", parameters.showonlymissingtime, DbType.Boolean);
+
+                if (!string.IsNullOrWhiteSpace(parameters.fromdate))
+                    param.Add("@FromDate", parameters.fromdate, DbType.String);
+                if (!string.IsNullOrWhiteSpace(parameters.todate))
+                    param.Add("@ToDate", parameters.todate, DbType.String);
                 if (parameters.lastdays != -1)
                     param.Add("@LastDays", parameters.lastdays, DbType.Int32);
 
-                dynamic data = await conn.QueryAsync<ProfileSearchReport>(Constants.StoredProcedure.GETPROFILESEACHRREPORT, param, null, null, CommandType.StoredProcedure);
-                result = (List<ProfileSearchReport>)data;
+                dynamic data = await conn.QueryAsync<PunchReport>(Constants.StoredProcedure.GETPUNCHREPORT, param, null, null, CommandType.StoredProcedure);
+                result = (List<PunchReport>)data;
 
                 response.ResultStatus = result.Count > 0 ? Constants.ResponseResult.SUCCESS : Constants.ResponseResult.NODATA;
                 response.Output = result;

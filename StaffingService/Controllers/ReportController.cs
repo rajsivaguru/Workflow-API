@@ -143,7 +143,7 @@ namespace StaffingService.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetPunchReport(string source)
         {
-            ProfileSearchReportParam param = JsonConvert.DeserializeObject<ProfileSearchReportParam>(source);
+            PunchReportParam param = JsonConvert.DeserializeObject<PunchReportParam>(source);
             ResponseModel result = await ReportDal.Instance.GetPunchReport(param);
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
@@ -366,6 +366,7 @@ namespace StaffingService.Controllers
             }
         }
 
+        /* Need to develop */
         [HttpGet]
         public async Task<HttpResponseMessage> GetPunchReportFile(string sourceParam)
         {
@@ -373,7 +374,7 @@ namespace StaffingService.Controllers
             List<ProfileSearchReport> reportData = new List<ProfileSearchReport>();
             string userids = string.Empty;
 
-            ProfileSearchReportParam source = JsonConvert.DeserializeObject<ProfileSearchReportParam>(sourceParam);
+            PunchReportParam source = JsonConvert.DeserializeObject<PunchReportParam>(sourceParam);
             var reportResponse = await ReportDal.Instance.GetPunchReport(source);
 
             if (reportResponse.Output != null)
@@ -392,15 +393,15 @@ namespace StaffingService.Controllers
                 LocalReport lr = new LocalReport();
                 lr.ReportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports\\PunchReport.rdlc");
 
-                if (source.userids != null && source.userids.Count > 0)
-                    userids = string.Join(",", source.userids);
+                //if (source.userids != null && source.userids.Count > 0)
+                //    userids = string.Join(",", source.userids);
 
                 List<ReportParameter> parameters = new List<ReportParameter>();
-                parameters.Add(new ReportParameter("UserIds", userids));
-                parameters.Add(new ReportParameter("JobCode", source.jobcode));
-                parameters.Add(new ReportParameter("Title", source.title));
-                parameters.Add(new ReportParameter("Location", source.location));
-                parameters.Add(new ReportParameter("SearchedDate", source.searcheddate));
+                //parameters.Add(new ReportParameter("UserIds", userids));
+                //parameters.Add(new ReportParameter("JobCode", source.jobcode));
+                //parameters.Add(new ReportParameter("Title", source.title));
+                //parameters.Add(new ReportParameter("Location", source.location));
+                //parameters.Add(new ReportParameter("SearchedDate", source.searcheddate));
                 parameters.Add(new ReportParameter("LastDays", source.lastdays.ToString()));
                 lr.SetParameters(parameters);
 
