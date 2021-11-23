@@ -371,14 +371,14 @@ namespace StaffingService.Controllers
         public async Task<HttpResponseMessage> GetPunchReportFile(string sourceParam)
         {
             HttpResponse response = HttpContext.Current.Response;
-            List<ProfileSearchReport> reportData = new List<ProfileSearchReport>();
+            List<PunchReport> reportData = new List<PunchReport>();
             string userids = string.Empty;
 
             PunchReportParam source = JsonConvert.DeserializeObject<PunchReportParam>(sourceParam);
             var reportResponse = await ReportDal.Instance.GetPunchReport(source);
 
             if (reportResponse.Output != null)
-                reportData = (List<ProfileSearchReport>)reportResponse.Output;
+                reportData = (List<PunchReport>)reportResponse.Output;
 
             /* Follow the below URL, so report will work.             
              https://stackoverflow.com/questions/38902037/ssrs-report-definition-is-newer-than-server?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
@@ -393,20 +393,19 @@ namespace StaffingService.Controllers
                 LocalReport lr = new LocalReport();
                 lr.ReportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports\\PunchReport.rdlc");
 
-                //if (source.userids != null && source.userids.Count > 0)
-                //    userids = string.Join(",", source.userids);
+                if (source.userids != null && source.userids.Count > 0)
+                    userids = string.Join(",", source.userids);
 
                 List<ReportParameter> parameters = new List<ReportParameter>();
-                //parameters.Add(new ReportParameter("UserIds", userids));
-                //parameters.Add(new ReportParameter("JobCode", source.jobcode));
-                //parameters.Add(new ReportParameter("Title", source.title));
-                //parameters.Add(new ReportParameter("Location", source.location));
-                //parameters.Add(new ReportParameter("SearchedDate", source.searcheddate));
-                parameters.Add(new ReportParameter("LastDays", source.lastdays.ToString()));
+                parameters.Add(new ReportParameter("UserIds", userids));
+                parameters.Add(new ReportParameter("ShowOnlyMissingTime", source.showonlymissingtime.ToString()));
+                parameters.Add(new ReportParameter("IncludeWeekEnds", source.includeweekends.ToString()));
+                parameters.Add(new ReportParameter("FromDate", source.fromdate));
+                parameters.Add(new ReportParameter("ToDate", source.todate));
                 lr.SetParameters(parameters);
 
                 lr.DataSources.Clear();
-                lr.DataSources.Add(new ReportDataSource("DsProfileSearchReport", reportData));
+                lr.DataSources.Add(new ReportDataSource("DsPunchReport", reportData));
                 lr.Refresh();
 
                 /* < PageWidth > 8.5in</ PageWidth > < PageHeight > 11in</ PageHeight > */

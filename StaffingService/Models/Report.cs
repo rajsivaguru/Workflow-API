@@ -129,9 +129,10 @@ namespace StaffingService.Models
         public List<int> userRoleIds { get; set; }
         public string fromdate { get; set; }
         public string todate { get; set; }
-        public int lastdays { get; set; }
         public bool showonlymissingtime { get; set; }
+        public bool includeweekends { get; set; }
         public string reporttype { get; set; }
+        public List<string> userids { get; set; }
         public int loginid { get; set; }
     }
 
@@ -142,5 +143,10 @@ namespace StaffingService.Models
         public string intime { get; set; }
         public string outtime { get; set; }
         public string notes { get; set; }
+        public bool isabsent { get; set; }
+        public bool istimemissing { get; set; }
+        public string timetoday { get; set; }
+        public string daytoday { get; set; }
+        public string hourday { get; set; }
     }
 }

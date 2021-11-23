@@ -267,23 +267,22 @@ namespace StaffingService.DataAccess
             using (IDbConnection conn = _dbConnection.Connection)
             {
                 DynamicParameters param = new DynamicParameters();
-
-                //string userRoleIds = string.Empty;
-                //if (parameters.userRoleIds != null && parameters.userRoleIds.Count > 0)
-                //    userRoleIds = string.Join(",", parameters.userRoleIds);
-
-                //if (!string.IsNullOrWhiteSpace(userRoleIds))
-                //    param.Add("@UserRoleIds", userRoleIds, DbType.String);
-
+                
                 param.Add("@ShowOnlyMissingTime", parameters.showonlymissingtime, DbType.Boolean);
+                param.Add("@IncludeWeekEnds", parameters.includeweekends, DbType.Boolean);
 
+                string userIds = string.Empty;
+                if (parameters.userids != null && parameters.userids.Count > 0)
+                {
+                    userIds = string.Join(",", parameters.userids);
+                    param.Add("@UserIds", userIds, DbType.String);
+                }
+                   
                 if (!string.IsNullOrWhiteSpace(parameters.fromdate))
                     param.Add("@FromDate", parameters.fromdate, DbType.String);
                 if (!string.IsNullOrWhiteSpace(parameters.todate))
                     param.Add("@ToDate", parameters.todate, DbType.String);
-                if (parameters.lastdays != -1)
-                    param.Add("@LastDays", parameters.lastdays, DbType.Int32);
-
+                
                 dynamic data = await conn.QueryAsync<PunchReport>(Constants.StoredProcedure.GETPUNCHREPORT, param, null, null, CommandType.StoredProcedure);
                 result = (List<PunchReport>)data;
 
