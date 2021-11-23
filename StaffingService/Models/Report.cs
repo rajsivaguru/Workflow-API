@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace StaffingService.Models
 {
@@ -123,4 +124,29 @@ namespace StaffingService.Models
         public bool isoverride { get; set; }
     }
 
+    public class PunchReportParam
+    {
+        public List<int> userRoleIds { get; set; }
+        public string fromdate { get; set; }
+        public string todate { get; set; }
+        public bool showonlymissingtime { get; set; }
+        public bool includeweekends { get; set; }
+        public string reporttype { get; set; }
+        public List<string> userids { get; set; }
+        public int loginid { get; set; }
+    }
+
+    public class PunchReport
+    {
+        public string punchdate { get; set; }
+        public string username { get; set; }
+        public string intime { get; set; }
+        public string outtime { get; set; }
+        public string notes { get; set; }
+        public bool isabsent { get; set; }
+        public bool istimemissing { get; set; }
+        public string timetoday { get; set; }
+        public string daytoday { get; set; }
+        public string hourday { get; set; } 
+    }
 }
