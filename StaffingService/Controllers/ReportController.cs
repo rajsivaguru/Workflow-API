@@ -22,9 +22,9 @@ namespace StaffingService.Controllers
     {
         public ReportController()
         {
-            
+
         }
-        
+
         [HttpGet]
         public async Task<string> GetPeriods()
         {
@@ -70,7 +70,7 @@ namespace StaffingService.Controllers
 
                 LocalReport lr = new LocalReport();
                 lr.ReportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports\\JobReport.rdlc");
-                
+
                 List<ReportParameter> parameters = new List<ReportParameter>();
                 parameters.Add(new ReportParameter("JobCode", source.referenceid));
                 parameters.Add(new ReportParameter("Title", source.title));
@@ -143,7 +143,7 @@ namespace StaffingService.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetPunchReport(string source)
         {
-            ProfileSearchReportParam param = JsonConvert.DeserializeObject<ProfileSearchReportParam>(source);
+            PunchReportParam param = JsonConvert.DeserializeObject<PunchReportParam>(source);
             ResponseModel result = await ReportDal.Instance.GetPunchReport(param);
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
@@ -173,7 +173,7 @@ namespace StaffingService.Controllers
 
                 LocalReport lr = new LocalReport();
                 lr.ReportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports\\UserReport.rdlc");
-                
+
                 if (source.userids != null && source.userids.Count > 0)
                     userIds = string.Join(",", source.userids);
 
@@ -186,7 +186,7 @@ namespace StaffingService.Controllers
                 parameters.Add(new ReportParameter("AssignedDate", source.assingeddate));
                 parameters.Add(new ReportParameter("FromDate", source.fromdate));
                 parameters.Add(new ReportParameter("ToDate", source.todate));
-                parameters.Add(new ReportParameter("LastDays", source.lastdays.ToString()));                
+                parameters.Add(new ReportParameter("LastDays", source.lastdays.ToString()));
                 lr.SetParameters(parameters);
 
                 lr.DataSources.Clear();
@@ -194,7 +194,7 @@ namespace StaffingService.Controllers
                 lr.Refresh();
 
                 //< PageWidth > 8.5in</ PageWidth > < PageHeight > 11in</ PageHeight >
-                string deviceInfo =@"<DeviceInfo>
+                string deviceInfo = @"<DeviceInfo>
                     <OutputFormat>EMF</OutputFormat>
                     <PageWidth>11.5in</PageWidth>
                     <PageHeight>8.5in</PageHeight>
@@ -217,7 +217,7 @@ namespace StaffingService.Controllers
 
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
@@ -226,7 +226,7 @@ namespace StaffingService.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetClientReportFile(string sourceParam)
         {
-            HttpResponse response = HttpContext.Current.Response;            
+            HttpResponse response = HttpContext.Current.Response;
             List<ClientReport> reportData = new List<ClientReport>();
             string clientids = string.Empty;
 
@@ -235,7 +235,7 @@ namespace StaffingService.Controllers
 
             if (reportResponse.Output != null)
                 reportData = (List<ClientReport>)reportResponse.Output;
-            
+
             /* Follow the below URL, so report will work.             
              https://stackoverflow.com/questions/38902037/ssrs-report-definition-is-newer-than-server?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
              */
@@ -366,18 +366,19 @@ namespace StaffingService.Controllers
             }
         }
 
+        /* Need to develop */
         [HttpGet]
         public async Task<HttpResponseMessage> GetPunchReportFile(string sourceParam)
         {
             HttpResponse response = HttpContext.Current.Response;
-            List<ProfileSearchReport> reportData = new List<ProfileSearchReport>();
+            List<PunchReport> reportData = new List<PunchReport>();
             string userids = string.Empty;
 
-            ProfileSearchReportParam source = JsonConvert.DeserializeObject<ProfileSearchReportParam>(sourceParam);
+            PunchReportParam source = JsonConvert.DeserializeObject<PunchReportParam>(sourceParam);
             var reportResponse = await ReportDal.Instance.GetPunchReport(source);
 
             if (reportResponse.Output != null)
-                reportData = (List<ProfileSearchReport>)reportResponse.Output;
+                reportData = (List<PunchReport>)reportResponse.Output;
 
             /* Follow the below URL, so report will work.             
              https://stackoverflow.com/questions/38902037/ssrs-report-definition-is-newer-than-server?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
@@ -397,15 +398,14 @@ namespace StaffingService.Controllers
 
                 List<ReportParameter> parameters = new List<ReportParameter>();
                 parameters.Add(new ReportParameter("UserIds", userids));
-                parameters.Add(new ReportParameter("JobCode", source.jobcode));
-                parameters.Add(new ReportParameter("Title", source.title));
-                parameters.Add(new ReportParameter("Location", source.location));
-                parameters.Add(new ReportParameter("SearchedDate", source.searcheddate));
-                parameters.Add(new ReportParameter("LastDays", source.lastdays.ToString()));
+                parameters.Add(new ReportParameter("ShowOnlyMissingTime", source.showonlymissingtime.ToString()));
+                parameters.Add(new ReportParameter("IncludeWeekEnds", source.includeweekends.ToString()));
+                parameters.Add(new ReportParameter("FromDate", source.fromdate));
+                parameters.Add(new ReportParameter("ToDate", source.todate));
                 lr.SetParameters(parameters);
 
                 lr.DataSources.Clear();
-                lr.DataSources.Add(new ReportDataSource("DsProfileSearchReport", reportData));
+                lr.DataSources.Add(new ReportDataSource("DsPunchReport", reportData));
                 lr.Refresh();
 
                 /* < PageWidth > 8.5in</ PageWidth > < PageHeight > 11in</ PageHeight > */
@@ -439,21 +439,21 @@ namespace StaffingService.Controllers
         }
 
         private void generateFile(HttpResponse response, byte[] bytes, string filename, string reporttype)
-        {   
+        {
             response.ClearContent();
             response.Buffer = true;
 
-            if(reporttype == "excel")
+            if (reporttype == "excel")
             {
                 response.AddHeader("content-disposition", "attachment; filename=" + filename + DateTime.Now.ToString("yyyyMMdd") + ".xlsx");
-                response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";                
+                response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             }
             else
             {
                 response.AddHeader("content-disposition", "attachment; filename=" + filename + DateTime.Now.ToString("yyyyMMdd") + ".pdf");
                 response.ContentType = "application/pdf";
             }
-            
+
             response.Charset = "charset=utf-8";
             response.BinaryWrite(bytes);
             response.End();

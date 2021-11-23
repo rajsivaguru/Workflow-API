@@ -37,6 +37,8 @@ namespace WorkFlow.Controllers
                     GoogleClientID = ConfigurationManager.AppSettings["GoogleClientID"].ToString(),
                     JobTimerDuration = ConfigurationManager.AppSettings["JobTimerDuration"].ToString(),
                     AlertTimerDuration = ConfigurationManager.AppSettings["AlertTimerDuration"].ToString(),
+                    HelpDeskURL = ConfigurationManager.AppSettings["HelpDeskURL"].ToString(), 
+                    StaffDirectoryURL = ConfigurationManager.AppSettings["StaffDirectoryURL"].ToString(),
                     DeploymentNotificationMessage = deploymentMessage
                 };
 
@@ -48,7 +50,9 @@ namespace WorkFlow.Controllers
                 {
                     GoogleClientID = "",
                     JobTimerDuration = 3600,
-                    AlertTimerDuration = 30
+                    AlertTimerDuration = 30,
+                    HelpDeskURL = "",
+                    StaffDirectoryURL = ""
                 };
                 return JsonConvert.SerializeObject(jsonResult);
             }
