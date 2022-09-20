@@ -370,7 +370,7 @@ namespace StaffingService.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetPunchReportFile(string sourceParam)
         {
-            HttpResponse response = HttpContext.Current.Response;
+             HttpResponse response = HttpContext.Current.Response;
             List<PunchReport> reportData = new List<PunchReport>();
             string userids = string.Empty;
 

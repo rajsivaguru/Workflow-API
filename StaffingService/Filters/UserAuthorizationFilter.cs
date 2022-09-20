@@ -16,7 +16,9 @@ namespace StaffingService.Filters
             {
                 string uiToken = Common.GetUIToken(context.Request.Headers);
 
-                if (!Common.IsUITokenValid(uiToken))
+                if (string.IsNullOrWhiteSpace(uiToken))
+                    response(context, HttpStatusCode.NotImplemented);
+                else if (!Common.IsUITokenValid(uiToken))
                     response(context, HttpStatusCode.Unauthorized);
             }
 
@@ -41,6 +43,11 @@ namespace StaffingService.Filters
                     responseObj.ResultStatus = Constants.ResponseResult.UNAUTHORIZED;
                     responseObj.ErrorMessage = Constants.ErrorMessage.UNAUTHORIZED;
                     response = context.Request.CreateResponse(HttpStatusCode.Unauthorized, responseObj);
+                    break;
+                case HttpStatusCode.NotImplemented:
+                    responseObj.ResultStatus = Constants.ResponseResult.AUTHORIZATIONNOTIMPLEMENTED;
+                    responseObj.ErrorMessage = Constants.ErrorMessage.AUTHORIZATIONNOTIMPLEMENTED;
+                    response = context.Request.CreateResponse(HttpStatusCode.NotImplemented, responseObj);
                     break;
             }
 

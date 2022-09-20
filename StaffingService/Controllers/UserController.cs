@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StaffingService.DataAccess;
+using StaffingService.Filters;
 using StaffingService.Models;
 using StaffingService.Util;
 using System;
@@ -11,6 +12,7 @@ using System.Web.Http;
 
 namespace StaffingService.Controllers
 {
+    [CustomExceptionFilter]
     public class UserController : BaseController
     {
         public UserController()

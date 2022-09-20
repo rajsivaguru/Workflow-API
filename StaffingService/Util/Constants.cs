@@ -4,6 +4,7 @@
     {
         internal class ResponseResult
         {
+            internal static int AUTHORIZATIONNOTIMPLEMENTED = -4;
             internal static int UNAUTHORIZED = -3;
             internal static int MISSINGDATA = -2;
             internal static int ERROR = -1;
@@ -15,6 +16,7 @@
         {
             internal const string MISSINGDATA = "One or more required field(s) are missing or the value is not valid.";
             internal const string UNAUTHORIZED = "You are not authorized to access this content.  Please re-LOGIN and try again or contact your administrator.";
+            internal const string AUTHORIZATIONNOTIMPLEMENTED = "Authorization Not Iimplemented - You are not authorized to access this content.  Please contact your administrator.";
         }
 
         internal static class RequestType

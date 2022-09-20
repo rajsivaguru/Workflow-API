@@ -1,4 +1,4 @@
-ClientReport_ and fileType = Report Builder Report File = Used to open the report in Report Builder and the extension is rdl.
+ClientReport_ and fileType = "Report Builder Report File" = Used to open the report in Report Builder and the extension is rdl.
 
 filetype = Report Definition file (ext is .rdlc) = Is used in VS.
 
@@ -11,3 +11,5 @@ Source: https://stackoverflow.com/questions/38902037/ssrs-report-definition-is-n
 4. Delete the "ReportSections" and "ReportSection" opening and closing tags (not the content).
 5. Delete the entire "ReportParametersLayout" block.
 6. Delete the "df" tag and its content, if any.
+
+Note: All field name in SP should be lower-case.
