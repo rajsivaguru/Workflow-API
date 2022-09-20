@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Principal;
 using System.Text;
 using System.Web.Http.Filters;
 
@@ -61,7 +62,8 @@ namespace StaffingService.Filters
                 InputValue = fieldData,
                 InnerException = context.Exception.InnerException == null ? null : context.Exception.InnerException.ToString(),
                 Message = context.Exception.Message,
-                StackTrace = context.Exception.StackTrace
+                StackTrace = context.Exception.StackTrace,
+                InsertedBy = WindowsIdentity.GetCurrent().Name
             };
 
             int dbErrorId = await Common.LogErrorInDBAsync(error);

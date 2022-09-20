@@ -371,7 +371,7 @@ namespace StaffingService.Controllers
         public async Task<HttpResponseMessage> GetPunchReportFile(string sourceParam)
         {
             HttpResponse response = HttpContext.Current.Response;
-            List<PunchReport> reportData = new List<PunchReport>();
+            List<ProfileSearchReport> reportData = new List<ProfileSearchReport>();
             string userids = string.Empty;
 
             PunchReportParam source = JsonConvert.DeserializeObject<PunchReportParam>(sourceParam);

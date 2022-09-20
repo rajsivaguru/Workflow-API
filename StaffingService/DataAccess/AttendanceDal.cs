@@ -73,13 +73,18 @@ namespace StaffingService.DataAccess
             using (IDbConnection conn = _dbConnection.Connection)
             {
                 DynamicParameters param = new DynamicParameters();
+                
+                param.Add("@LoginId", loginUserId, DbType.Int32);
+                param.Add("@PunchId", source.punchid, DbType.Int32);
+                param.Add("@PunchDay", source.punchday, DbType.Date);
+                param.Add("@InTime", source.intime, DbType.DateTimeOffset);
 
-                ////if (source.customervendorid > 0)
-                ////    param.Add("@Id", source.customervendorid, DbType.Int32);
-
-                ////param.Add("@Name", source.name.Trim(), DbType.String);
-                ////param.Add("@Type", source.type.Trim(), DbType.String);
-                param.Add("@LoginUserId", loginUserId, DbType.Int32);
+                if(source.outtime.HasValue)
+                {
+                    param.Add("@OutTime", source.outtime, DbType.DateTimeOffset);
+                }
+                                
+                param.Add("@Notes", source.notes.Trim(), DbType.String);
 
                 var data = await conn.QueryAsync<int>(Constants.StoredProcedure.SAVEMYPUNCHDETAILS, param, null, null, CommandType.StoredProcedure);
                 int result = 0;
